@@ -3,11 +3,11 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'git@github.com:jmbharathram/SampleJavaApps.git',
+                git url: 'git@github.com:BSC-9/SampleJavaApps.git',
                     branch: 'main',
                     credentialsId: 'git-ssh-cred'
                 dir('MyJenkins') {
-                    git url: 'git@github.com:jmbharathram/Jenkins.git',
+                    git url: 'git@github.com:BSC-9/Jenkins.git',
                         branch: 'main',
                         credentialsId: 'git-ssh-cred'
                 }
@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Build and Push Docker Image') {
             environment {
-              DOCKER_IMAGE = "jmbharathram/springapi:${BUILD_NUMBER}"
+              DOCKER_IMAGE = "BSC-9/springapi:${BUILD_NUMBER}"
               REGISTRY_CREDENTIALS = credentials('docker-secret')
             }
             steps {
@@ -42,11 +42,11 @@ pipeline {
                     git config --global user.email "executeoncommand@gmail.com"
                     git config --global user.name "Bharath Ram"
                     cd Manifests/
-                    sed -i 's,jmbharathram/springapi.*,jmbharathram/springapi:${BUILD_NUMBER},g' deployment.yaml
+                    sed -i 's,BSC-9/springapi.*,BSC-9/springapi:${BUILD_NUMBER},g' deployment.yaml
                     cat deployment.yaml
                     git add deployment.yaml
                     git commit -m "Image updated by Jenkins CI pipeline"
-                    git push git@github.com:jmbharathram/Jenkins.git main
+                    git push git@github.com:BSC-9/Jenkins.git main
                     """
                 }
             }
